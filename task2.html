@@ -1,51 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Web Projects</title>
+  <style>
+    /* Global Styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      color: #333;
+    }
+    section {
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    h2 {
+      color: #4a148c;
+      margin-bottom: 20px;
+    }
+
+    /* Navigation */
+    nav {
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    nav h2 { font-size: 20px; }
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    nav ul li {
+      margin-left: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    nav ul li:hover {
+      transform: scale(1.1);
+      color: #ffe082;
+    }
+
+    /* Card Container */
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Contact Form */
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      border: 1px solid #6a11cb;
+    }
+    form button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+    form button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+    }
+
+    /* Responsive Layout */
+    .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+    .box {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    .box:hover { transform: scale(1.02); }
+    @media(max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      nav ul { flex-direction: column; }
+      nav ul li { margin: 10px 0; }
+    }
+
+    /* To-Do List */
+    #taskInput {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 70%;
+      margin-right: 10px;
+    }
+    #todoList {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #todoList li {
+      background: #fff;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    #todoList li:hover { transform: scale(1.02); }
+    #todoList button {
+      background: #ff4d4d;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #todoList button:hover { background: #d50000; }
+  </style>
+</head>
 <body>
-    <header>
-        <h1>Welcome to My Simple Webpage</h1>
-    </header>
 
-    <main>
-        <section>
-            <h2>About This Project</h2>
-            <p>This is a basic webpage demonstrating HTML structure, CSS styling, and JavaScript interactivity. We've included headings, paragraphs, images, and links to meet the requirements.</p>
-        </section>
+  <!-- Navigation -->
+  <nav>
+    <h2>🌟 Mini Projects</h2>
+    <ul>
+      <li onclick="scrollToSection('contact')">Contact Form</li>
+      <li onclick="scrollToSection('layout')">Responsive Layout</li>
+      <li onclick="scrollToSection('todo')">To-Do List</li>
+    </ul>
+  </nav>
 
-        <section>
-            <h2>Featured Image</h2>
-            <div class="image-container">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6c672a56-b076-4632-b80c-dd44f558c03c.png" alt="Serene mountain landscape with tall peaks under a clear blue sky in Banff National Park during autumn with golden aspens and evergreen trees in the foreground">
-            </div>
-            <p>This placeholder image would typically show a beautiful scenic view.</p>
-        </section>
+  <!-- Contact Form Section -->
+  <section id="contact">
+    <div class="card">
+      <h2>1. Contact Form with Validation</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="4" placeholder="Your Message"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </section>
 
-        <section>
-            <h2>Useful Links</h2>
-            <p>Explore these resources:</p>
-            <ul>
-                <li><a href="https://www.google.com" target="_blank">Google Search</a></li>
-                <li><a href="https://developer.mozilla.org" target="_blank">MDN Web Docs</a></li>
-                <li><a href="https://www.w3schools.com" target="_blank">W3Schools Tutorials</a></li>
-            </ul>
-        </section>
+  <!-- Responsive Layout Section -->
+  <section id="layout">
+    <div class="card">
+      <h2>2. Responsive Layout (Flexbox + Grid)</h2>
+      <div class="container">
+        <div class="box">🌐 Main Content: This is the primary area.</div>
+        <div class="box">📌 Sidebar: This is a secondary area.</div>
+      </div>
+    </div>
+  </section>
 
-        <section>
-            <h2>Interactive Button</h2>
-            <p>Click the button below to see JavaScript in action!</p>
-            <button id="alert-button">Generate Alert</button>
-        </section>
+  <!-- To-Do List Section -->
+  <section id="todo">
+    <div class="card">
+      <h2>3. Dynamic To-Do List</h2>
+      <div>
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="todoList"></ul>
+    </div>
+  </section>
 
-        <section>
-            <h2>Conclusion</h2>
-            <p>This webpage showcases fundamental web development concepts. Feel free to explore and modify the code to learn more.</p>
-        </section>
-    </main>
+  <script>
+    /* Smooth scroll */
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
 
-    <footer>
-        <p>© 2023 My Simple Webpage. Created with HTML, CSS, and JavaScript.</p>
-    </footer>
+    /* Form Validation */
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let message = document.getElementById("message").value.trim();
+      let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-    <script>
-        document.getElementById('alert-button').addEventListener('click', function() {
-            alert('Hello! This is a JavaScript alert triggered by clicking the button.');
-        });
-    </script>
+      if(name === "" || email === "" || message === "") {
+        alert("⚠️ All fields are required!");
+      } else if(!email.match(emailPattern)) {
+        alert("📧 Please enter a valid email!");
+      } else {
+        alert("✅ Form submitted successfully!");
+        this.reset();
+      }
+    });
+
+    /* To-Do List */
+    function addTask() {
+      let input = document.getElementById("taskInput");
+      let task = input.value.trim();
+      if(task === "") {
+        alert("⚠️ Please enter a task!");
+        return;
+      }
+      let li = document.createElement("li");
+      li.innerHTML = `${task} <button onclick="this.parentElement.remove()">Delete</button>`;
+      document.getElementById("todoList").appendChild(li);
+      input.value = "";
+    }
+  </script>
+
 </body>
+</html>
