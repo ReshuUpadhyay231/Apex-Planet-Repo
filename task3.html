@@ -1,0 +1,239 @@
+import React, { useState, useEffect } from 'react';
+
+const ResponsiveQuizApp = () => {
+  const [quizData] = useState([
+    {
+      id: 1,
+      question: "What is the capital of France?",
+      options: ["London", "Berlin", "Paris", "Madrid"],
+      correctAnswer: "Paris"
+    },
+    {
+      id: 2,
+      question: "Which planet is known as the Red Planet?",
+      options: ["Venus", "Mars", "Jupiter", "Saturn"],
+      correctAnswer: "Mars"
+    },
+    {
+      id: 3,
+      question: "What is the largest mammal in the world?",
+      options: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+      correctAnswer: "Blue Whale"
+    }
+  ]);
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [joke, setJoke] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  // Fetch joke from API
+  const fetchJoke = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+      const data = await response.json();
+      setJoke(`${data.setup} - ${data.punchline}`);
+    } catch (error) {
+      setJoke("⚠️ Couldn't fetch a joke. Tap below to retry.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJoke();
+  }, []);
+
+  // Carousel images
+  const images = [
+    {
+      src: "https://picsum.photos/400/300?random=1",
+      alt: "Earth facts"
+    },
+    {
+      src: "https://picsum.photos/400/300?random=2",
+      alt: "Animal diversity"
+    },
+    {
+      src: "https://picsum.photos/400/300?random=3",
+      alt: "History timeline"
+    },
+    {
+      src: "https://picsum.photos/400/300?random=4",
+      alt: "Math concepts"
+    }
+  ];
+
+  // Auto-slide carousel every 4s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const handleAnswerOptionClick = (option: string) => {
+    setSelectedOption(option);
+    if (option === quizData[currentQuestion].correctAnswer) {
+      setScore(score + 1);
+    }
+
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < quizData.length) {
+      setTimeout(() => {
+        setCurrentQuestion(nextQuestion);
+        setSelectedOption(null);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setShowScore(true);
+      }, 1000);
+    }
+  };
+
+  const restartQuiz = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setShowScore(false);
+    setSelectedOption(null);
+    fetchJoke();
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="text-center mb-8 md:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
+            Knowledge Quiz
+          </h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
+            Test your knowledge with our interactive quiz
+          </p>
+        </header>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Quiz Section */}
+          <div className="flex-1 bg-card rounded-lg shadow-lg p-6 md:p-8">
+            {showScore ? (
+              <div className="text-center">
+                <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-4">
+                  You scored {score} out of {quizData.length}
+                </h2>
+                <p className="text-muted-foreground mb-6">
+                  {score === quizData.length 
+                    ? "🌟 Perfect score! You're a genius!" 
+                    : score >= quizData.length / 2 
+                    ? "👍 Good job! Keep learning!" 
+                    : "📘 Keep practicing, you'll get better!"}
+                </p>
+                <button 
+                  onClick={restartQuiz}
+                  className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Progress */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-2 text-sm">
+                    <span>Question {currentQuestion + 1}/{quizData.length}</span>
+                    <span className="font-medium text-primary">Score: {score}</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2.5">
+                    <div 
+                      className="bg-primary h-2.5 rounded-full transition-all duration-300" 
+                      style={{ width: `${((currentQuestion + 1) / quizData.length) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-6">
+                  {quizData[currentQuestion].question}
+                </h2>
+
+                <div className="space-y-3">
+                  {quizData[currentQuestion].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswerOptionClick(option)}
+                      disabled={selectedOption !== null}
+                      className={`w-full text-left p-3 sm:p-4 rounded-lg border transition-all duration-200 text-sm sm:text-base ${
+                        selectedOption === option
+                          ? option === quizData[currentQuestion].correctAnswer
+                            ? 'bg-green-100 border-green-500 text-green-800'
+                            : 'bg-red-100 border-red-500 text-red-800'
+                          : 'bg-muted/50 border-border hover:bg-accent hover:text-accent-foreground'
+                      } ${selectedOption !== null && option === quizData[currentQuestion].correctAnswer ? 'bg-green-100 border-green-500 text-green-800' : ''}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* API + Carousel Section */}
+          <div className="lg:w-96 bg-card rounded-lg shadow-lg p-6 md:p-8">
+            {/* Joke API */}
+            <h2 className="text-lg sm:text-xl font-semibold mb-4">Daily Joke from API</h2>
+            <div className="bg-muted/50 p-4 rounded-lg mb-6 min-h-[60px] flex items-center justify-center">
+              {isLoading ? (
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              ) : (
+                <p className="text-sm sm:text-base text-foreground text-center">{joke}</p>
+              )}
+            </div>
+            <button 
+              onClick={fetchJoke}
+              disabled={isLoading}
+              className="w-full bg-secondary text-secondary-foreground py-2 px-4 rounded-lg font-medium hover:bg-secondary/90 transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Loading...' : 'Get New Joke'}
+            </button>
+
+            {/* Carousel */}
+            <div className="mt-8">
+              <h3 className="text-md sm:text-lg font-medium mb-4">Fun Facts Gallery</h3>
+              <div className="relative w-full overflow-hidden rounded-lg">
+                <img
+                  src={images[carouselIndex].src}
+                  alt={images[carouselIndex].alt}
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover transition-all duration-500"
+                />
+                {/* Controls */}
+                <button 
+                  onClick={() => setCarouselIndex((prev) => (prev - 1 + images.length) % images.length)}
+                  className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/60"
+                >
+                  ◀
+                </button>
+                <button 
+                  onClick={() => setCarouselIndex((prev) => (prev + 1) % images.length)}
+                  className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/60"
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-12 text-center text-xs sm:text-sm text-muted-foreground">
+          <p>© 2023 Knowledge Quiz App. Learn something new every day!</p>
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+export default ResponsiveQuizApp;
+
