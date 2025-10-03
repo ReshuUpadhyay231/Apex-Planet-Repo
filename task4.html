@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Integrated Web Projects</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #1f2937;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --text: #334155;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body {
+      font-family: "Segoe UI",sans-serif;
+      line-height:1.6; background:var(--bg); color:var(--text);
+    }
+    /* NAV */
+    .main-nav {
+      position:sticky;top:0;z-index:100;
+      background:var(--secondary);padding:1rem;text-align:center;
+    }
+    .main-nav button {
+      background:none;border:none;color:#e5e7eb;
+      margin:0 10px;padding:10px 16px;cursor:pointer;
+      font-size:1rem;font-weight:600;transition:.3s;
+    }
+    .main-nav button.active,.main-nav button:hover{
+      color:var(--primary);border-bottom:2px solid var(--primary);
+    }
+    section{display:none;min-height:100vh;padding:2rem;}
+    section.active{display:block;animation:fade .5s;}
+    @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    .container{max-width:1100px;margin:auto;}
+
+    /* PORTFOLIO */
+    #portfolio{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;}
+    #portfolio h1{font-size:2.5rem;margin-bottom:.5rem;}
+    #portfolio .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-top:1rem;}
+    #portfolio .skill{background:rgba(255,255,255,.2);padding:.8rem;border-radius:12px;text-align:center;transition:.3s;}
+    #portfolio .skill:hover{background:rgba(255,255,255,.3);transform:scale(1.05);}
+    #portfolio .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem;}
+    .project-card{background:rgba(255,255,255,.1);padding:1rem;border-radius:12px;transition:.3s;}
+    .project-card:hover{transform:translateY(-5px);box-shadow:0 6px 12px rgba(0,0,0,.3);}
+    .socials a{margin:0 10px;color:#fff;text-decoration:none;font-size:1.2rem;}
+
+    /* TODO */
+    #todo{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;}
+    #todo .app{max-width:500px;margin:auto;background:rgba(255,255,255,.1);padding:2rem;border-radius:12px;}
+    #todo input{flex:1;padding:.6rem;border:none;border-radius:8px;}
+    #todo button{padding:.6rem 1rem;border:none;border-radius:8px;cursor:pointer;background:var(--accent);color:#fff;}
+    #todo ul{list-style:none;margin-top:1rem;}
+    #todo li{background:rgba(255,255,255,.1);padding:.6rem;border-radius:8px;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center;}
+    #todo li.completed .text{text-decoration:line-through;color:#ddd;}
+    .progress{height:8px;background:rgba(255,255,255,.3);border-radius:6px;margin-top:1rem;}
+    .progress-bar{height:100%;background:#10b981;width:0%;border-radius:6px;}
+
+    /* PRODUCTS */
+    #products{background:#f0f9ff;}
+    .controls{display:flex;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:1rem;}
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
+    .card{background:#fff;padding:1rem;border-radius:12px;box-shadow:0 4px 8px rgba(0,0,0,.1);transition:.3s;}
+    .card:hover{transform:translateY(-5px);}
+    .card img{max-width:100%;border-radius:8px;}
+    .stars{color:gold;}
+    footer{text-align:center;padding:1rem;background:var(--secondary);color:#eee;}
+
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <div class="main-nav">
+    <button class="active" data-target="portfolio">Portfolio</button>
+    <button data-target="todo">To-Do App</button>
+    <button data-target="products">Products</button>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="active">
+    <div class="container">
+      <h1>Hello, I'm Reshu 👋</h1>
+      <p>Aspiring Developer | Showcasing Skills & Projects</p>
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">React</div>
+      </div>
+      <h2 style="margin-top:2rem;">Projects</h2>
+      <div class="project-grid">
+        <div class="project-card"><h3>Portfolio</h3><p>Responsive portfolio site.</p></div>
+        <div class="project-card"><h3>To-Do App</h3><p>Persistent task manager.</p></div>
+        <div class="project-card"><h3>Products Page</h3><p>Filter & sort demo.</p></div>
+      </div>
+      <div class="socials" style="margin-top:2rem;">
+        <a href="#">LinkedIn</a><a href="#">GitHub</a><a href="mailto:test@mail.com">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TO-DO -->
+  <section id="todo">
+    <div class="app">
+      <h2>My To-Do List</h2>
+      <div style="display:flex;gap:.5rem;margin-top:1rem;">
+        <input id="taskInput" placeholder="Enter a task..."/>
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="taskList"></ul>
+      <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="container">
+      <h2>Product Listing</h2>
+      <div class="controls">
+        <input id="search" placeholder="Search product..."/>
+        <select id="sort">
+          <option value="">Sort</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 Reshu Portfolio Demo</footer>
+
+  <script>
+    // NAV
+    document.querySelectorAll('.main-nav button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+        document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
+        document.getElementById(btn.dataset.target).classList.add('active');
+        btn.classList.add('active');
+      });
+    });
+
+    // TO-DO
+    let tasks = JSON.parse(localStorage.getItem('tasks')||"[]");
+    const taskList=document.getElementById('taskList');
+    const progressBar=document.getElementById('progressBar');
+    function renderTasks(){
+      taskList.innerHTML="";
+      tasks.forEach((t,i)=>{
+        const li=document.createElement('li');
+        li.className=t.done?"completed":"";
+        li.innerHTML=`<span class="text">${t.text}</span>
+          <div><button onclick="toggleTask(${i})">✔</button>
+          <button onclick="delTask(${i})">✖</button></div>`;
+        taskList.appendChild(li);
+      });
+      let done=tasks.filter(t=>t.done).length;
+      progressBar.style.width=tasks.length? (done/tasks.length*100)+"%":"0%";
+      localStorage.setItem('tasks',JSON.stringify(tasks));
+    }
+    function addTask(){
+      const val=document.getElementById('taskInput').value.trim();
+      if(val){tasks.push({text:val,done:false});document.getElementById('taskInput').value="";renderTasks();}
+    }
+    function toggleTask(i){tasks[i].done=!tasks[i].done;renderTasks();}
+    function delTask(i){tasks.splice(i,1);renderTasks();}
+    renderTasks();
+
+    // PRODUCTS
+    const products=[
+      {name:"Phone",price:300,rating:4,img:"https://via.placeholder.com/200?text=Phone"},
+      {name:"Laptop",price:900,rating:5,img:"https://via.placeholder.com/200?text=Laptop"},
+      {name:"Headphones",price:100,rating:3,img:"https://via.placeholder.com/200?text=Headphones"},
+      {name:"Smartwatch",price:150,rating:4,img:"https://via.placeholder.com/200?text=Smartwatch"},
+      {name:"Tablet",price:400,rating:4,img:"https://via.placeholder.com/200?text=Tablet"},
+      {name:"Camera",price:550,rating:5,img:"https://via.placeholder.com/200?text=Camera"},
+      {name:"Bluetooth Speaker",price:80,rating:3,img:"https://via.placeholder.com/200?text=Speaker"},
+      {name:"Gaming Console",price:500,rating:5,img:"https://via.placeholder.com/200?text=Console"},
+      {name:"Drone",price:700,rating:4,img:"https://via.placeholder.com/200?text=Drone"},
+      {name:"Fitness Tracker",price:120,rating:4,img:"https://via.placeholder.com/200?text=Tracker"},
+      {name:"E-Reader",price:130,rating:4,img:"https://via.placeholder.com/200?text=E-Reader"},
+      {name:"Wireless Mouse",price:40,rating:3,img:"https://via.placeholder.com/200?text=Mouse"},
+      {name:"Mechanical Keyboard",price:90,rating:5,img:"https://via.placeholder.com/200?text=Keyboard"},
+      {name:"Monitor",price:250,rating:4,img:"https://via.placeholder.com/200?text=Monitor"},
+      {name:"VR Headset",price:350,rating:5,img:"https://via.placeholder.com/200?text=VR+Headset"}
+    ];
+    const grid=document.getElementById('productGrid');
+    function renderProducts(list){
+      grid.innerHTML="";
+      list.forEach(p=>{
+        grid.innerHTML+=`
+          <div class="card">
+            <img src="${p.img}"/>
+            <h3>${p.name}</h3>
+            <p>$${p.price}</p>
+            <div class="stars">${"★".repeat(p.rating)}${"☆".repeat(5-p.rating)}</div>
+          </div>`;
+      });
+    }
+    renderProducts(products);
+    document.getElementById('search').addEventListener('input',e=>{
+      const q=e.target.value.toLowerCase();
+      renderProducts(products.filter(p=>p.name.toLowerCase().includes(q)));
+    });
+    document.getElementById('sort').addEventListener('change',e=>{
+      let list=[...products];
+      if(e.target.value=="low") list.sort((a,b)=>a.price-b.price);
+      if(e.target.value=="high") list.sort((a,b)=>b.price-a.price);
+      renderProducts(list);
+    });
+  </script>
+</body>
+</html>
