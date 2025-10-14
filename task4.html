@@ -17,7 +17,6 @@
       font-family: "Segoe UI",sans-serif;
       line-height:1.6; background:var(--bg); color:var(--text);
     }
-    /* NAV */
     .main-nav {
       position:sticky;top:0;z-index:100;
       background:var(--secondary);padding:1rem;text-align:center;
@@ -34,8 +33,6 @@
     section.active{display:block;animation:fade .5s;}
     @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
     .container{max-width:1100px;margin:auto;}
-
-    /* PORTFOLIO */
     #portfolio{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;}
     #portfolio h1{font-size:2.5rem;margin-bottom:.5rem;}
     #portfolio .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-top:1rem;}
@@ -46,7 +43,6 @@
     .project-card:hover{transform:translateY(-5px);box-shadow:0 6px 12px rgba(0,0,0,.3);}
     .socials a{margin:0 10px;color:#fff;text-decoration:none;font-size:1.2rem;}
 
-    /* TODO */
     #todo{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;}
     #todo .app{max-width:500px;margin:auto;background:rgba(255,255,255,.1);padding:2rem;border-radius:12px;}
     #todo input{flex:1;padding:.6rem;border:none;border-radius:8px;}
@@ -57,7 +53,7 @@
     .progress{height:8px;background:rgba(255,255,255,.3);border-radius:6px;margin-top:1rem;}
     .progress-bar{height:100%;background:#10b981;width:0%;border-radius:6px;}
 
-    /* PRODUCTS */
+   
     #products{background:#f0f9ff;}
     .controls{display:flex;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:1rem;}
     .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;}
@@ -70,14 +66,12 @@
   </style>
 </head>
 <body>
-  <!-- NAV -->
+ 
   <div class="main-nav">
     <button class="active" data-target="portfolio">Portfolio</button>
     <button data-target="todo">To-Do App</button>
     <button data-target="products">Products</button>
   </div>
-
-  <!-- PORTFOLIO -->
   <section id="portfolio" class="active">
     <div class="container">
       <h1>Hello, I'm Reshu 👋</h1>
@@ -100,8 +94,6 @@
       </div>
     </div>
   </section>
-
-  <!-- TO-DO -->
   <section id="todo">
     <div class="app">
       <h2>My To-Do List</h2>
@@ -113,8 +105,6 @@
       <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
     </div>
   </section>
-
-  <!-- PRODUCTS -->
   <section id="products">
     <div class="container">
       <h2>Product Listing</h2>
@@ -133,7 +123,7 @@
   <footer>&copy; 2025 Reshu Portfolio Demo</footer>
 
   <script>
-    // NAV
+   
     document.querySelectorAll('.main-nav button').forEach(btn=>{
       btn.addEventListener('click',()=>{
         document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
@@ -143,7 +133,7 @@
       });
     });
 
-    // TO-DO
+   
     let tasks = JSON.parse(localStorage.getItem('tasks')||"[]");
     const taskList=document.getElementById('taskList');
     const progressBar=document.getElementById('progressBar');
@@ -169,7 +159,7 @@
     function delTask(i){tasks.splice(i,1);renderTasks();}
     renderTasks();
 
-    // PRODUCTS
+   
     const products=[
       {name:"Phone",price:300,rating:4,img:"https://via.placeholder.com/200?text=Phone"},
       {name:"Laptop",price:900,rating:5,img:"https://via.placeholder.com/200?text=Laptop"},

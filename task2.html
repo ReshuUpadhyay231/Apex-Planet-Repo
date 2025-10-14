@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Web Projects</title>
   <style>
-    /* Global Styles */
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -25,7 +25,7 @@
       margin-bottom: 20px;
     }
 
-    /* Navigation */
+    
     nav {
       background: linear-gradient(90deg, #6a11cb, #2575fc);
       display: flex;
@@ -52,7 +52,7 @@
       color: #ffe082;
     }
 
-    /* Card Container */
+    
     .card {
       background: white;
       padding: 25px;
@@ -68,7 +68,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Contact Form */
+    
     input, textarea {
       width: 100%;
       padding: 12px;
@@ -97,7 +97,7 @@
       background: linear-gradient(90deg, #2575fc, #6a11cb);
     }
 
-    /* Responsive Layout */
+    
     .container {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -117,7 +117,7 @@
       nav ul li { margin: 10px 0; }
     }
 
-    /* To-Do List */
+    
     #taskInput {
       padding: 10px;
       border-radius: 8px;
@@ -159,7 +159,7 @@
 </head>
 <body>
 
-  <!-- Navigation -->
+  
   <nav>
     <h2>🌟 Mini Projects</h2>
     <ul>
@@ -169,7 +169,7 @@
     </ul>
   </nav>
 
-  <!-- Contact Form Section -->
+  
   <section id="contact">
     <div class="card">
       <h2>1. Contact Form with Validation</h2>
@@ -182,7 +182,7 @@
     </div>
   </section>
 
-  <!-- Responsive Layout Section -->
+  
   <section id="layout">
     <div class="card">
       <h2>2. Responsive Layout (Flexbox + Grid)</h2>
@@ -193,7 +193,7 @@
     </div>
   </section>
 
-  <!-- To-Do List Section -->
+  
   <section id="todo">
     <div class="card">
       <h2>3. Dynamic To-Do List</h2>
@@ -206,12 +206,11 @@
   </section>
 
   <script>
-    /* Smooth scroll */
+    
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: "smooth" });
     }
 
-    /* Form Validation */
     document.getElementById("contactForm").addEventListener("submit", function(e) {
       e.preventDefault();
       
@@ -230,7 +229,6 @@
       }
     });
 
-    /* To-Do List */
     function addTask() {
       let input = document.getElementById("taskInput");
       let task = input.value.trim();
